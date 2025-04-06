@@ -19,8 +19,13 @@ pipeline {
                 dir('Terraform_module') {
                     withCredentials([azureServicePrincipal(credentialsId: AZURE_CREDENTIALS_ID)]) {
                         bat '''
+                        set ARM_CLIENT_ID=%AZURE_CLIENT_ID%
+                        set ARM_CLIENT_SECRET=%AZURE_CLIENT_SECRET%
+                        set ARM_SUBSCRIPTION_ID=%AZURE_SUBSCRIPTION_ID%
+                        set ARM_TENANT_ID=%AZURE_TENANT_ID%
                         az login --service-principal -u %AZURE_CLIENT_ID% -p %AZURE_CLIENT_SECRET% --tenant %AZURE_TENANT_ID%
                         terraform init
+                        terraform plan
                         terraform apply -auto-approve
                         '''
                     }
