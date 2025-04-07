@@ -16,8 +16,8 @@ pipeline {
 
         stage('Terraform Init & Apply') {
             steps {
-                dir('Terraform_module') {
-                    withCredentials([azureServicePrincipal(credentialsId: AZURE_CREDENTIALS_ID)]) {
+                withCredentials([azureServicePrincipal(credentialsId: AZURE_CREDENTIALS_ID)]) {
+                    dir('Terraform_module') {
                         bat '''
                         set ARM_CLIENT_ID=%AZURE_CLIENT_ID%
                         set ARM_CLIENT_SECRET=%AZURE_CLIENT_SECRET%
